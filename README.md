@@ -18,11 +18,12 @@ and follow the steps below.
 | Asset | Description |
 |---|---|
 | `surge-linux-amd64`, `surge-linux-arm64` | the `surge` CLI for 64-bit Linux (Intel/AMD and ARM) |
-| `customer-kit-<version>.tar.gz` | Docker Compose files, nginx config, `generate-cert.sh`, and `env.example` |
 | `SHA256SUMS` | checksums for every file in the release |
 | `SHA256SUMS.minisig` | signature you use to confirm the download is authentic |
 
-Always use the release whose version matches the Surge image you are running.
+**One file to download — `surge`.** The deployment kit (Docker Compose, nginx,
+cert helper) is built into the binary; `surge deploy` writes it for you. Always
+use the release whose version matches the Surge image you are running.
 
 ---
 
@@ -67,17 +68,20 @@ surge version
 
 ## 3. Deploy
 
-Unpack the kit and run the guided deployment:
+Pick a directory for the deployment and run the guided deploy — `surge` writes
+the Compose/nginx kit itself:
 
 ```bash
-tar xzf customer-kit-<version>.tar.gz
-cd customer-kit
+mkdir -p ~/surge/customer-kit && cd ~/surge/customer-kit
 surge deploy
 ```
 
-`surge deploy` walks you through hostnames, TLS, your activation key, and registry
-access (your vendor provides the activation key and access token). When it
-finishes it prints a one-time admin password — change it on first login.
+`surge deploy` writes the kit, then walks you through hostnames, TLS, your
+activation key, and registry access (your vendor provides the activation key and
+access token). When it finishes it prints a one-time admin password — change it
+on first login.
+
+> Want the kit files without deploying? `surge init <dir>` writes them.
 
 ---
 
@@ -100,4 +104,4 @@ is preserved across updates.
 - A 64-bit Linux host (amd64 or arm64) with Docker Engine + the Compose plugin.
 - The activation key and registry access token supplied by your vendor.
 
-A full operator guide ships inside the kit at `customer-kit/README.md`.
+A full operator guide is written alongside the kit (`README.md`) by `surge deploy`/`surge init`.
