@@ -87,15 +87,21 @@ on first login.
 
 ## 4. Update
 
-From your deployment directory:
+There are two, kept separate:
 
+**The portal** — from your deployment directory:
 ```bash
 sudo surge update --to <version> --force --auth-token-env GITHUB_TOKEN
 ```
+Pulls the new release, snapshots your database, swaps the stack, health-checks,
+and **automatically rolls back** if anything fails. Your data is preserved.
 
-`surge update` pulls the new release, snapshots your database, swaps the stack,
-runs a health check, and **automatically rolls back** if anything fails. Your data
-is preserved across updates.
+**The `surge` CLI itself** — when a newer CLI is published:
+```bash
+sudo surge self-update            # add --check to only see if one is available
+```
+Pulls the latest signed `surge` from this repo's releases, verifies the minisign
+signature + checksum, and replaces the binary in place — no manual re-download.
 
 ---
 
